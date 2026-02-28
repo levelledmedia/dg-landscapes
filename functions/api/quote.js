@@ -22,7 +22,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: 'info@dg-landscapes.co.uk' }], // Replace with your email
+            to: [{ email: 'lparrott91@gmail.com' }], // Testing email - change to client email later
             dkim_domain: 'dg-landscapes.co.uk',
             dkim_selector: 'mailchannels',
           },
