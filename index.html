@@ -939,16 +939,16 @@ Thanks DG</p>
           <p class="section__description">Fill out the form below and we&#39;ll get back to you with a competitive quote.</p>
         </div>
       </div>
-      <form class="quote-form">
+      <form class="quote-form" action="/api/quote" method="POST">
         <div class="form-row">
-          <input type="text" placeholder="Full name" class="form-input" required>
-          <input type="text" placeholder="Postcode" class="form-input" required>
+          <input type="text" name="name" placeholder="Full name" class="form-input" required>
+          <input type="text" name="postcode" placeholder="Postcode" class="form-input" required>
         </div>
         <div class="form-row">
-          <input type="email" placeholder="Email address" class="form-input" required>
-          <input type="tel" placeholder="Phone number" class="form-input" required>
+          <input type="email" name="email" placeholder="Email address" class="form-input" required>
+          <input type="tel" name="phone" placeholder="Phone number" class="form-input" required>
         </div>
-        <textarea placeholder="Briefly describe your project" class="form-input form-textarea" required></textarea>
+        <textarea name="description" placeholder="Briefly describe your project" class="form-input form-textarea" required></textarea>
         <button type="submit" class="btn btn--primary btn--full">Yes, I Want a Free Quote</button>
       </form>
     </div>
