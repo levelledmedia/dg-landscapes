@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DG Landscapes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style id="dark-mode-init">
+    html.dark-mode-init .card,
+    html.dark-mode-init .form-input,
+    html.dark-mode-init .btn--ghost-light {
+      background: #0A0A0A !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: #F1F5F9 !important;
+    }
+    html.dark-mode-init .btn--ghost-light {
+      background: transparent !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      color: #fff !important;
+    }
+    html.dark-mode-init .header {
+      background: #0A0A0A !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+  </style>
+  <script>
+    // Apply default theme mode immediately before page renders to prevent flash
+    (function() {
+      const defaultTheme = 'light';
+      const businessName = 'DG Landscapes';
+      const storageKey = 'siteTheme_' + businessName.replace(/[^a-zA-Z0-9]/g, '_');
+
+      // Check if this is a preview - if so, always use the default theme
+      // Previews are served from /websites/ path on localhost
+      const isPreview = window.location.pathname.includes('/websites/');
+
+      let savedMode = localStorage.getItem(storageKey);
+
+      // For previews, clear any saved preference so you always see the configured default
+      if (isPreview && savedMode !== null) {
+        localStorage.removeItem(storageKey);
+        savedMode = null;
+      }
+
+      // Decide which mode to use
+      // When defaultTheme is 'color': base is color-mode, toggle switches to dark-mode (no white/light mode)
+      // When defaultTheme is 'dark': base is dark-mode
+      // When defaultTheme is 'light': base is light (no class)
+      let activeMode = defaultTheme; // 'light', 'dark', or 'color'
+
+      if (savedMode !== null) {
+        activeMode = savedMode;
+      } else {
+        if (!isPreview) {
+          localStorage.setItem(storageKey, activeMode);
+        }
+      }
+
+      // Apply mode classes
+      if (activeMode === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.add('dark-mode-init');
+      } else if (activeMode === 'color') {
+        document.documentElement.classList.add('color-mode');
+      }
+
+      // Sync body classes when available
+      if (activeMode === 'dark' || activeMode === 'color') {
+        const applyBodyClass = () => {
+          if (activeMode === 'dark') document.body.classList.add('dark-mode');
+          if (activeMode === 'color') document.body.classList.add('color-mode');
+        };
+        if (document.body) {
+          applyBodyClass();
+        } else {
+          document.addEventListener('DOMContentLoaded', applyBodyClass);
+        }
+      }
+    })();
+  </script>
+</head>
+<body class="">
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <!-- Top Bar with Logo and CTA -->
+    <div class="header__top">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <img src=".&#x2F;images&#x2F;logo.png" alt="DG Landscapes" class="header__logo-img">
+          </div>
+          <div class="header__right">
+            <a href="mailto:da.greenwood1@btopenworld.com" class="btn btn--ghost btn--sm header__email-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              da.greenwood1@btopenworld.com
+            </a>
+            <div class="header__social">
+              <a href="https:&#x2F;&#x2F;www.facebook.com&#x2F;dglandscapes.co.uk" target="_blank" class="header__social-link" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a href="https:&#x2F;&#x2F;www.instagram.com&#x2F;dandglandscaping" target="_blank" class="header__social-link" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+              <a href="https:&#x2F;&#x2F;www.google.com&#x2F;maps&#x2F;place&#x2F;DG+Landscapes&#x2F;@50.8806649,0.015146399999999999,14z&#x2F;data&#x3D;!4m8!1m2!2m1!1sDG+Landscapes!3m4!1s0x47df628ee8910a93:0x6fe9a3ce28203ec2!8m2!3d50.8806649!4d0.015146399999999999" target="_blank" rel="noopener noreferrer" class="header__social-link" aria-label="Google Maps">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C7.589 0 4 3.589 4 8c0 5.25 7.313 14.438 7.625 14.813.188.218.469.375.781.375s.594-.157.781-.375C13.5 22.438 20 13.25 20 8c0-4.411-3.589-8-8-8zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                </svg>
+              </a>
+              <a href="https://wa.me/+447889233999" target="_blank" rel="noopener noreferrer" class="header__social-link" aria-label="WhatsApp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </a>
+            </div>
+            <a href="tel:01273472264" class="btn btn--primary btn--sm header__call-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              01273 472 264
+            </a>
+            <button class="header__hamburger" id="mobileMenuToggle" aria-label="Toggle menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="header__nav-bar">
+      <div class="container">
+        <div class="header__nav-container">
+          <nav class="header__nav">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#why">Why Us</a>
+            <a href="#work-carousel">Our Work</a>
+            <a href="#reviews-carousel">Reviews</a>
+            <a href="#areas">Areas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#quote">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="header__mobile-menu" id="mobileMenu">
+      <nav class="header__mobile-nav">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#why">Why Us</a>
+        <a href="#work-carousel">Our Work</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#areas">Areas</a>
+        <a href="#faq">FAQ</a>
+        <a href="#quote">Contact</a>
+        <a href="tel:01273472264" class="btn btn--primary btn--full">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Call 01273 472 264
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero__bg">
+      <img src=".&#x2F;images&#x2F;hero.jpg" alt="DG Landscapes" class="hero__image">
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__text">
+          <h1 class="h1">Trusted Landscapers &amp; Gardeners in Cheshire</h1>
+          <p class="hero__tagline">Your local choice for reliable, friendly, and high-quality landscaping services across Winsford, Cheshire and surrounding areas.</p>
+          <div class="hero__buttons">
+            <a href="tel:01273472264" class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              Call Us Now
+            </a>
+            <a href="#quote" class="btn btn--ghost-light">Get Free Quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid stats-grid--three">
+        <div class="stat-item">
+          <div class="stat-item__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="stat-item__content">
+            <div class="stat-item__number">Expert Team</div>
+            <div class="stat-item__label">Over 18 years of experience in the landscaping industry.</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="stat-item__content">
+            <div class="stat-item__number">Quality Guaranteed</div>
+            <div class="stat-item__label">100% satisfaction guarantee on every project, big or small.</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="stat-item__content">
+            <div class="stat-item__number">Trusted Service</div>
+            <div class="stat-item__label">Rated 5&#x2F;5 stars by our clients with hundreds of successes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us -->
+  <section class="section section--light" id="about">
+    <div class="container">
+      <div class="split">
+        <div class="split__media split__media--tall">
+          <img src=".&#x2F;images&#x2F;about.jpg" alt="DG Landscapes" class="img">
+        </div>
+        <div class="split__content">
+          <h2 class="h-eyebrow">ABOUT US</h2>
+          <h2 class="h2">We Are DG Landscapes</h2>
+          <p class="paragraph multiline">A family-run business established in 1997, providing landscape gardening and driveway services across Cheshire and the surrounding areas. From laying grass to designing bespoke gardens, we create stunning outdoor spaces.</p>
+          <p class="paragraph multiline">Whether you need a beautiful garden, a functional driveway, or a stylish patio, we deliver reliable service with over 18 years of experience in transforming outdoor spaces.</p>
+          <p class="paragraph multiline">Every job is completed to the highest standard, with meticulous attention to detail. Your satisfaction is our priority, and we&#39;re proud to be a trusted choice for landscaping in Cheshire.</p>
+          <div class="button-group">
+            <a href="tel:01273472264" class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              01273 472 264
+            </a>
+            <a href="#quote" class="btn btn--ghost">Get Free Quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section section--services" id="services">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <p class="h-eyebrow">WHAT WE DO</p>
+          <h2 class="h2">Our Services</h2>
+        </div>
+        <div class="services-nav">
+          <button class="services-nav-btn services-nav-btn--prev" id="servicesPrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="services-nav-btn services-nav-btn--next" id="servicesNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="services-carousel">
+        <div class="services-carousel-track" id="servicesTrack">
+          <div class="service-card">
+            <div class="service-card__image">
+              <img src=".&#x2F;images&#x2F;service1.jpg" alt="Driveways">
+            </div>
+            <div class="service-card__content">
+              <h3 class="service-card__title">Driveways</h3>
+              <p class="service-card__desc multiline">We create stunning driveways that enhance your property&#39;s curb appeal with a variety of surface options. Each driveway is crafted to the highest standard, ensuring durability and style.</p>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-card__image">
+              <img src=".&#x2F;images&#x2F;service2.jpg" alt="Landscaped Gardens">
+            </div>
+            <div class="service-card__content">
+              <h3 class="service-card__title">Landscaped Gardens</h3>
+              <p class="service-card__desc multiline">Our team specializes in redesigning outdoor spaces, regardless of gradient or surroundings, to create a garden that suits your needs. We provide bespoke advice and support for a beautiful transformation.</p>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-card__image">
+              <img src=".&#x2F;images&#x2F;service3.jpg" alt="Patios and Pathways">
+            </div>
+            <div class="service-card__content">
+              <h3 class="service-card__title">Patios and Pathways</h3>
+              <p class="service-card__desc multiline">We offer a range of stylish surfaces for patios and pathways that complement your home and surroundings. Our installations ensure a clean, slick look that enhances your outdoor areas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="section section--light" id="why">
+    <div class="container">
+      <div class="split split--reverse">
+        <div class="split__media split__media--tall">
+          <img src=".&#x2F;images&#x2F;whyUs.jpg" alt="Your Local Landscaping Expert" class="img">
+        </div>
+        <div class="split__content">
+          <h2 class="h-eyebrow">WHY CHOOSE US</h2>
+          <h2 class="h2">Your Local Landscaping Expert</h2>
+          <p class="lead multiline">At DG Landscapes, we&#39;re committed to creating beautiful outdoor spaces tailored to your needs. Our 18 years of experience and bespoke services set us apart in the landscaping industry.</p>
+          <ul class="list-check">
+            <li>
+              <i aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </i>
+              <div>
+                <strong>Bespoke designs to fit your unique outdoor space</strong>
+              </div>
+            </li>
+            <li>
+              <i aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </i>
+              <div>
+                <strong>Expert team with over 18 years of experience</strong>
+              </div>
+            </li>
+            <li>
+              <i aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </i>
+              <div>
+                <strong>High-quality finishes for every project we undertake</strong>
+              </div>
+            </li>
+            <li>
+              <i aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </i>
+              <div>
+                <strong>Reliable service with a strong local reputation</strong>
+              </div>
+            </li>
+            <li>
+              <i aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </i>
+              <div>
+                <strong>Wide range of materials for driveways and patios</strong>
+              </div>
+            </li>
+          </ul>
+          <div class="button-group">
+            <a href="tel:01273472264" class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              01273 472 264
+            </a>
+            <a href="#quote" class="btn btn--ghost">Get Free Quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Projects - Carousel Version -->
+  <section class="section section--portfolio" id="work-carousel">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <p class="h-eyebrow">SEE OUR WORK</p>
+          <h2 class="h2">Our Recent Work</h2>
+        </div>
+        <div class="portfolio-nav">
+          <button class="portfolio-nav-btn portfolio-nav-btn--prev" id="portfolioPrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="portfolio-nav-btn portfolio-nav-btn--next" id="portfolioNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-carousel-wrapper">
+      <div class="portfolio-carousel">
+        <div class="portfolio-carousel-track" id="portfolioTrack">
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio1.jpg" alt="Portfolio project 1">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio2.jpg" alt="Portfolio project 2">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio3.jpg" alt="Portfolio project 3">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio4.jpg" alt="Portfolio project 4">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio5.jpg" alt="Portfolio project 5">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio6.jpg" alt="Portfolio project 6">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio7.jpg" alt="Portfolio project 7">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio8.jpg" alt="Portfolio project 8">
+          </div>
+          <div class="portfolio-carousel-slide">
+            <img src=".&#x2F;images&#x2F;portfolio9.jpg" alt="Portfolio project 9">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lightboxClose">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <img src="" alt="" class="lightbox__image" id="lightboxImage">
+  </div>
+
+  <!-- Before/After Transformation -->
+
+  <!-- CTA Banner -->
+  <section class="cta cta-pattern">
+    <div class="cta__grid">
+      <div class="cta__image-col">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop" alt="Professional at work" class="cta__image">
+      </div>
+      <div class="cta__content-wrapper">
+        <div class="cta__content-col">
+          <h3 class="cta__title">Ready to Talk?
+          </h3>
+          <p class="cta__description">If you&#39;re ready to discuss how we can help with your project, contact us today and get a free, no-obligation quotation.</p>
+          <div class="button-group">
+            <a href="tel:01273472264" class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              01273 472 264
+            </a>
+            <a href="#quote" class="btn btn--ghost-light">Get Free Quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner - Centered Version -->
+  <section class="cta cta--centered">
+    <div class="container">
+      <div class="cta__content-centered">
+        <h3 class="cta__title">Ready to Talk?</h3>
+        <p class="cta__description">If you&#39;re ready to discuss how we can help with your project, contact us today and get a free, no-obligation quotation.</p>
+        <div class="button-group">
+          <a href="tel:01273472264" class="btn btn--primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            01273 472 264
+          </a>
+          <a href="#quote" class="btn btn--ghost-light">Get Free Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Carousel -->
+  <section class="section section--light-alt" id="reviews-carousel">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <p class="h-eyebrow">TESTIMONIALS</p>
+          <h2 class="h2">What Our Clients Say</h2>
+        </div>
+        <div class="testimonial-nav">
+          <button class="testimonial-nav-btn testimonial-nav-btn--prev" id="testimonialPrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="testimonial-nav-btn testimonial-nav-btn--next" id="testimonialNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-carousel-wrapper">
+      <div class="testimonial-carousel">
+        <div class="testimonial-carousel-track" id="testimonialTrack">
+          <div class="testimonial-carousel-slide">
+            <div class="testimonial-card card">
+              <div class="testimonial-card__header">
+                <svg class="testimonial-google-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <div class="testimonial-card__rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="testimonial-card__text" data-full-text="DG Landscapes did a great job in ripping out my old decking and replacing with a lawn and sleepers. Very friendly service, hard working and good value.">DG Landscapes did a great job in ripping out my old decking and replacing with a lawn and sleepers. Very friendly service, hard working and good value.</p>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Barry Collins</h4>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-carousel-slide">
+            <div class="testimonial-card card">
+              <div class="testimonial-card__header">
+                <svg class="testimonial-google-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <div class="testimonial-card__rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="testimonial-card__text" data-full-text="Incredibly reliable, trustworthy, hard working &amp; delivered way beyond what we expected! 
+Listened to every mad idea, Dave shared his expertise &amp; recommendations too. 
+Highly highly recommended">Incredibly reliable, trustworthy, hard working &amp; delivered way beyond what we expected! 
+Listened to every mad idea, Dave shared his expertise &amp; recommendations too. 
+Highly highly recommended</p>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Nicola Clare</h4>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-carousel-slide">
+            <div class="testimonial-card card">
+              <div class="testimonial-card__header">
+                <svg class="testimonial-google-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <div class="testimonial-card__rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="testimonial-card__text" data-full-text="I&#39;d been thinking about transforming my garden for a number of years, but I&#39;m not a gardener and didn&#39;t really know what I wanted, or what to do.  So, I contacted a number of landscape gardeners, for inspiration and quotes.
+I was aware of DG Landscapes, as they had completed work for a number of neighbours, who spoke highly of the company and the work which was undertaken.
+So, decision made.  DG Landscapes (Dave, Connor and Tom) were amazing -  reliable, informative, trustworthy and produced a total garden makeover beyond my expectations.  I&#39;m delighted.  I really am!
+DG Landscapes are very customer focused and work hard to meet your expectations and in my case exceed.   They are are also competitively priced and produce work to a very high standard.
+I have no hesitation in recommending DG Landscapes - very impressive - thank you!">I&#39;d been thinking about transforming my garden for a number of years, but I&#39;m not a gardener and didn&#39;t really know what I wanted, or what to do.  So, I contacted a number of landscape gardeners, for inspiration and quotes.
+I was aware of DG Landscapes, as they had completed work for a number of neighbours, who spoke highly of the company and the work which was undertaken.
+So, decision made.  DG Landscapes (Dave, Connor and Tom) were amazing -  reliable, informative, trustworthy and produced a total garden makeover beyond my expectations.  I&#39;m delighted.  I really am!
+DG Landscapes are very customer focused and work hard to meet your expectations and in my case exceed.   They are are also competitively priced and produce work to a very high standard.
+I have no hesitation in recommending DG Landscapes - very impressive - thank you!</p>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Ken Power</h4>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-carousel-slide">
+            <div class="testimonial-card card">
+              <div class="testimonial-card__header">
+                <svg class="testimonial-google-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <div class="testimonial-card__rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="testimonial-card__text" data-full-text="I recently had my front garden transformed from an overgrown mess to a low maintenance and prestine garden in just 2 days. 
+Dave and his team were so polite, informative through out about what they were doing next and kept everywhere so tidy during their time here, which I thought was extremely considerate to myself and surrounding neighbours. 
+DG Landscapes were highly recommended to me and I would definitely recommend them to anyone looking for any garden advice and transformations. 
+Great work by 3 Great guys ">I recently had my front garden transformed from an overgrown mess to a low maintenance and prestine garden in just 2 days. 
+Dave and his team were so polite, informative through out about what they were doing next and kept everywhere so tidy during their time here, which I thought was extremely considerate to myself and surrounding neighbours. 
+DG Landscapes were highly recommended to me and I would definitely recommend them to anyone looking for any garden advice and transformations. 
+Great work by 3 Great guys </p>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Mandy Stewart </h4>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-carousel-slide">
+            <div class="testimonial-card card">
+              <div class="testimonial-card__header">
+                <svg class="testimonial-google-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <div class="testimonial-card__rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="testimonial-card__text" data-full-text="Thanks DG landscapes. our fence was damaged in the bad weather. from quote to install was a few days and all rubbish was removed like noone had ever been. just a nice new fence which will last years to come.
+Thanks DG">Thanks DG landscapes. our fence was damaged in the bad weather. from quote to install was a few days and all rubbish was removed like noone had ever been. just a nice new fence which will last years to come.
+Thanks DG</p>
+              <div class="testimonial-card__footer">
+                <h4 class="testimonial-card__name">Ben Stalley</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Map -->
+  <section class="section section--light section--location" id="areas">
+    <div class="container">
+      <div class="split">
+        <div class="split__content">
+          <p class="h-eyebrow">LOCATION</p>
+          <h2 class="h2">Service Areas</h2>
+          <p class="lead multiline">DG Landscapes provides exceptional landscaping and gardening services throughout Cheshire, ensuring beautiful outdoor spaces tailored to your needs.</p>
+          <div class="coverage-areas">
+            <div class="coverage-column">
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Winsford</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Crewe</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Sandbach</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Middlewich</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Northwich</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Nantwich</strong>
+                </div>
+              </div>
+            </div>
+            <div class="coverage-column">
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Chester</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Macclesfield</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Ellesmere Port</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Runcorn</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Warrington</strong>
+                </div>
+              </div>
+              <div class="coverage-item">
+                <i aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </i>
+                <div>
+                  <strong>Frodsham</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-group">
+            <a href="tel:01273472264" class="btn btn--primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              01273 472 264
+            </a>
+            <a href="#quote" class="btn btn--ghost">Get Free Quote</a>
+          </div>
+        </div>
+        <div class="split__media split__media--map">
+          <div class="map-container">
+            <iframe
+              src="https:&#x2F;&#x2F;www.google.com&#x2F;maps&#x2F;embed?pb&#x3D;!1m18!1m12!1m3!1d3000!2d0.0151464!3d50.8806649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6fe9a3ce28203ec2!2sDG%20Landscapes!5e0!3m2!1sen!2sus!4v1770694143925"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="DG Landscapes Location Map">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section section--light" id="faq">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <div>
+          <p class="h-eyebrow">Frequently Asked Questions</p>
+          <h2 class="h2">The Answers You Need</h2>
+        </div>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">What services does DG Landscapes provide?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>We provide comprehensive landscaping services including driveways, landscaped gardens, patios and pathways, and lawn installation.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">Where are you located and what areas do you serve?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>We&#39;re based in Winsford and serve Cheshire and surrounding areas, ensuring quality landscaping solutions for our clients.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">What are the operating hours for DG Landscapes?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>We&#39;re typically available Monday to Saturday, 8am-6pm. Contact us to discuss your schedule and we&#39;ll do our best to accommodate.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">Do you offer free quotes or estimates?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>Yes! We offer free, no-obligation quotes. Simply call us or fill out the contact form and we&#39;ll provide a transparent estimate for your project.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">What makes DG Landscapes different to other landscaping companies?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>We pride ourselves on quality workmanship and excellent customer service. With over 18 years of experience, we ensure every project meets high standards.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question">
+            <h3 class="faq-item__title">How do I get in contact with you?</h3>
+            <svg class="faq-item__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+          <div class="faq-item__answer">
+            <p>You can reach us by calling +44 1273 472264, emailing da.greenwood1@btopenworld.com, or filling out the contact form on our website.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre-Footer Section -->
+  <section class="section section--prefooter" id="quote">
+    <div class="container">
+      <div class="section__header section__header--center">
+        <div>
+          <p class="h-eyebrow">CONTACT US</p>
+          <h2 class="h2">Get A Free Quote</h2>
+          <p class="section__description">Fill out the form below and we&#39;ll get back to you with a competitive quote.</p>
+        </div>
+      </div>
+      <form class="quote-form">
+        <div class="form-row">
+          <input type="text" placeholder="Full name" class="form-input" required>
+          <input type="text" placeholder="Postcode" class="form-input" required>
+        </div>
+        <div class="form-row">
+          <input type="email" placeholder="Email address" class="form-input" required>
+          <input type="tel" placeholder="Phone number" class="form-input" required>
+        </div>
+        <textarea placeholder="Briefly describe your project" class="form-input form-textarea" required></textarea>
+        <button type="submit" class="btn btn--primary btn--full">Yes, I Want a Free Quote</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__col footer__col--logo">
+          <div class="footer__logo">
+              <img src=".&#x2F;images&#x2F;logo.png" alt="DG Landscapes" class="footer__logo-img" style="filter: brightness(0) invert(1)">
+          </div>
+          <p class="footer__tagline">Your local choice for reliable, friendly, and high-quality landscaping services across Winsford, Cheshire and surrounding areas.</p>
+        </div>
+        <div class="footer__col footer__col--links">
+          <h4 class="footer__heading">Links</h4>
+          <ul class="footer__links footer__links--split">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#why">Why Us</a></li>
+            <li><a href="#work-carousel">Our Work</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#areas">Areas</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer__col footer__col--contact">
+          <h4 class="footer__heading">Contact</h4>
+          <ul class="footer__links">
+            <li>87 Spences Ln, Lewes BN7 2HQ, UK</li>
+            <li><strong>Phone:</strong> 01273 472 264</li>
+            <li><strong>Email:</strong> da.greenwood1@btopenworld.com</li>
+          </ul>
+          <div class="footer__social">
+            <a href="https:&#x2F;&#x2F;www.facebook.com&#x2F;dglandscapes.co.uk" target="_blank" class="footer__social-link" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https:&#x2F;&#x2F;www.instagram.com&#x2F;dandglandscaping" target="_blank" class="footer__social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="https:&#x2F;&#x2F;www.google.com&#x2F;maps&#x2F;place&#x2F;DG+Landscapes&#x2F;@50.8806649,0.015146399999999999,14z&#x2F;data&#x3D;!4m8!1m2!2m1!1sDG+Landscapes!3m4!1s0x47df628ee8910a93:0x6fe9a3ce28203ec2!8m2!3d50.8806649!4d0.015146399999999999" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Google Maps">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C7.589 0 4 3.589 4 8c0 5.25 7.313 14.438 7.625 14.813.188.218.469.375.781.375s.594-.157.781-.375C13.5 22.438 20 13.25 20 8c0-4.411-3.589-8-8-8zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/+447889233999" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 DG Landscapes. All rights reserved. | <a href="#">Privacy Policy</a> |
+          <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+            <svg class="dark-mode-toggle__icon dark-mode-toggle__icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="dark-mode-toggle__icon dark-mode-toggle__icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- WhatsApp Widget -->
+  <script> (function(){ if(window.ChatWidget_wa) return; var config = { number: "+447889233999", message: "Hi there!", color: "#25D366", channel: "wa", boxShadow: "medium", position: "right", mb: "20px", mx: "20px" }; function createWidget() { var widget = document.createElement('div'); widget.id = 'chat-widget-wa'; widget.style.cssText = 'position:fixed;' + config.position + ':' + config.mx + ';bottom:' + config.mb + ';z-index:999999;cursor:pointer'; var shadowCss = config.boxShadow === 'none' ? '' : config.boxShadow === 'low' ? 'box-shadow:0 1px 3px rgba(0,0,0,0.12);' : config.boxShadow === 'medium' ? 'box-shadow:0 4px 6px rgba(0,0,0,0.15);' : 'box-shadow:0 10px 25px rgba(0,0,0,0.2);'; widget.innerHTML = '<div style="background-color:' + config.color + ';width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;' + shadowCss + '" onmouseover="this.style.transform=\'scale(1.05)\';" onmouseout="this.style.transform=\'scale(1)\';"><svg width=\"35\" height=\"35\" viewBox=\"0 0 25 25\" fill=\"white\"><path d=\"M18.1225 14.9458C17.8183 14.7895 16.3033 14.0473 16.0215 13.9469C15.7397 13.8409 15.5332 13.7907 15.3295 14.1032C15.123 14.4129 14.5371 15.102 14.3529 15.3113C14.1744 15.5178 13.993 15.5429 13.6889 15.3894C11.8808 14.4854 10.695 13.7767 9.50361 11.7315C9.18832 11.1874 9.8189 11.2265 10.4076 10.0518C10.5081 9.84534 10.4578 9.66956 10.3797 9.51331C10.3016 9.35706 9.68776 7.84478 9.43106 7.22815C9.18274 6.62826 8.92604 6.71197 8.7391 6.70081C8.56053 6.68965 8.35684 6.68965 8.15037 6.68965C7.9439 6.68965 7.61187 6.76777 7.33006 7.0719C7.04825 7.38161 6.25305 8.12659 6.25305 9.63887C6.25305 11.1511 7.35517 12.616 7.50584 12.8225C7.66209 13.0289 9.67381 16.1316 12.7625 17.4681C14.7157 18.3107 15.4802 18.3833 16.4567 18.2382C17.051 18.1489 18.2759 17.496 18.5298 16.7734C18.7837 16.0535 18.7837 15.4369 18.7084 15.3085C18.6331 15.1718 18.4266 15.0937 18.1225 14.9458Z\" fill=\"white\"></path><path d=\"M24.0292 7.65625C23.3986 6.15792 22.4946 4.81306 21.3422 3.65792C20.198 2.50948 18.8395 1.5966 17.3439 0.970982C15.8093 0.326451 14.1798 0 12.5002 0H12.4444C10.7535 0.00837054 9.11567 0.343192 7.57549 1.00167C6.09267 1.63371 4.74699 2.54821 3.61344 3.6942C2.47226 4.84654 1.57661 6.18583 0.95719 7.67857C0.315449 9.22433 -0.00821224 10.8677 0.000158294 12.5586C0.00962607 14.4963 0.468048 16.4054 1.33944 18.1362V22.3772C1.33944 22.7176 1.47467 23.0441 1.71537 23.2848C1.95607 23.5255 2.28253 23.6607 2.62293 23.6607H6.86679C8.59752 24.5321 10.5067 24.9905 12.4444 25H12.5029C14.1743 25 15.7954 24.6763 17.3216 24.043C18.8097 23.4248 20.163 22.5226 21.306 21.3867C22.4583 20.2455 23.3651 18.9118 23.9985 17.4247C24.657 15.8845 24.9918 14.2467 25.0002 12.5558C25.0085 10.8566 24.6793 9.20759 24.0292 7.65625ZM19.8132 19.8772C17.8573 21.8136 15.2624 22.8795 12.5002 22.8795H12.4527C10.7702 22.8711 9.09893 22.4526 7.62293 21.6657L7.38855 21.5402H3.45998V17.6116L3.33442 17.3772C2.54759 15.9012 2.12906 14.2299 2.12069 12.5474C2.10953 9.76562 3.17259 7.15402 5.12293 5.18694C7.07047 3.21987 9.67371 2.1317 12.4555 2.12054H12.5029C13.898 2.12054 15.2513 2.39118 16.5264 2.9269C17.7708 3.44866 18.8869 4.19922 19.8467 5.15904C20.8037 6.11607 21.5571 7.23493 22.0788 8.47935C22.6201 9.76841 22.8908 11.1356 22.8852 12.5474C22.8685 15.3265 21.7775 17.9297 19.8132 19.8772Z\" fill=\"white\"></path></svg></div>'; widget.onclick = function() { var phoneNumber = config.number.replace(/\D/g, ''); window.open('https://wa.me/' + phoneNumber + '?text=' + encodeURIComponent(config.message), '_blank'); }; document.body.appendChild(widget); } if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', createWidget); } else { createWidget(); } window.ChatWidget_wa = true; })(); </script>
+</body>
+</html>
